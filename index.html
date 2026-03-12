@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Horoscope Viewer</title>
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+<style>
+body{
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: radial-gradient(circle at top,#9963c6,#0e1023);
+    color:white;
+    margin:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    height:100vh;
+}
+
+header{
+    padding:25px;
+    font-size:28px;
+    font-weight:600;
+}
+
+.controls{
+    background:rgba(255,255,255,0.08);
+    padding:20px 25px;
+    border-radius:14px;
+    backdrop-filter: blur(10px);
+    display:flex;
+    gap:15px;
+}
+
+select,input[type=date],button{
+    padding:8px 10px;
+    border-radius:8px;
+    border:none;
+    font-size:14px;
+}
+
+button{
+    background:#6a7cff;
+    color:white;
+    cursor:pointer;
+}
+
+.card{
+    margin-top:35px;
+    width:650px;
+    max-width:90%;
+    padding:35px;
+    border-radius:18px;
+    background:rgba(255,255,255,0.1);
+    backdrop-filter: blur(12px);
+}
+
+.signTitle{
+    font-size:26px;
+    font-weight:600;
+    margin-bottom:6px;
+}
+
+.date{
+    opacity:0.7;
+    margin-bottom:20px;
+}
+
+.horoscope{
+    font-size:18px;
+    line-height:1.6;
+    white-space:pre-wrap;
+}
+
+.drop{
+    margin-top:15px;
+    opacity:0.7;
+    font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<header>🔮 Horoscope Viewer</header>
+
+<div class="controls">
+
+<input type="file" id="csvFile" accept=".csv">
+
+<select id="sign">
+<option>aries</option>
+<option>taurus</option>
+<option>gemini</option>
+<option>cancer</option>
+<option>leo</option>
+<option>virgo</option>
+<option>libra</option>
+<option>scorpio</option>
+<option>sagittarius</option>
+<option>capricorn</option>
+<option>aquarius</option>
+<option>pisces</option>
+</select>
+
+<input type="date" id="date">
+
+<button onclick="showHoroscope()">Show</button>
+
+</div>
+
+<div class="drop">
+Load your CSV → choose sign + date
+</div>
+
+<div class="card" id="result">
+<div class="signTitle">Load a CSV to begin</div>
+<div class="date"></div>
+<div class="horoscope"></div>
+</div>
+
+<script>
+
+let data = [];
+
+document.getElementById("csvFile").addEventListener("change", function(e){
+
+const file = e.target.files[0];
+
+Papa.parse(file,{
+header:true,
+skipEmptyLines:true,
+complete:function(results){
+
+data = results.data;
+
+document.querySelector(".signTitle").textContent = "CSV Loaded ✓";
+document.querySelector(".horoscope").textContent = "Pick a sign and date.";
+
+}
+});
+
+});
+
+function showHoroscope(){
+
+const sign = document.getElementById("sign").value.trim().toLowerCase();
+const date = document.getElementById("date").value;
+
+if(!date){
+alert("Pick a date");
+return;
+}
+
+const result = data.find(r =>
+r.sign?.trim().toLowerCase() === sign &&
+r.date?.trim() === date
+);
+
+const card = document.getElementById("result");
+
+if(result){
+
+card.innerHTML = `
+<div class="signTitle">${sign}</div>
+<div class="date">${date}</div>
+<div class="horoscope">${result.horoscope}</div>
+`;
+
+}else{
+
+card.innerHTML = `
+<div class="signTitle">${sign}</div>
+<div class="date">${date}</div>
+<div class="horoscope">No horoscope found.</div>
+`;
+
+}
+
+}
+
+</script>
+
+</body>
+</html>

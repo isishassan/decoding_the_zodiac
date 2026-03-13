@@ -80,6 +80,10 @@ FinalProject/
 
 **`classification.ipynb`** — Full ML pipeline: TF-IDF vectorisation → model comparison (Naive Bayes, Logistic Regression, Linear SVM, Random Forest) → GridSearchCV tuning → Soft Voting Ensemble. Includes confusion matrices and iterative debugging of overfitting.
 
+**`sentiment_analysis.ipynb`**  — Trends and theme analysis across signs and time. Uses the twitter-roberta-base-sentiment-latest transformer to score sentiment per sign and month, revealing that horoscopes are more positive during a sign's birthday season. Theme detection is explored via two approaches: zero-shot classification (deberta-v3-xsmall) and the faster Sentence Transformers (all-MiniLM-L6-v2) with cosine similarity — demonstrating how theme definitions can be manipulated to produce very different outcomes.
+
+**`text_generation.ipynb`** — Few-shot horoscope generation using LLaMA 3.2 running locally via Ollama. Builds a prompt per sign and date using 2 randomly sampled real horoscopes as style examples, then generates a full year of daily horoscopes (4,380 entries across 12 signs). Requests are parallelised with ThreadPoolExecutor and checkpointed to CSV every 50 rows to handle interruptions on slow hardware.
+
 ---
 
 ## Data Sources

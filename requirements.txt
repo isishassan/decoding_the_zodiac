@@ -1,0 +1,19 @@
+
+# data_collection.ipynb
+pandas==2.3.3
+numpy==2.3.5
+ 
+# classification.ipynb
+scikit-learn==1.7.2
+nltk==3.9.2
+matplotlib==3.10.6
+seaborn==0.13.2
+ 
+# sentiment_analysis.ipynb
+transformers==4.57.6
+sentence-transformers==5.2.3
+torch==2.10.0
+ 
+# text_generation.ipynb
+ollama
+tqdm==4.67.1
